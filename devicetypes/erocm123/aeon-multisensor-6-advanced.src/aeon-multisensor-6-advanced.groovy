@@ -59,7 +59,7 @@
 	simulator {
 	}
 	tiles (scale: 2) {
-		multiAttributeTile(name:"temperature", type:"generic", width:6, height:4) {
+		multiAttributeTile(name:"multi", type:"generic", width:6, height:4) {
 			tileAttribute("device.temperature", key: "PRIMARY_CONTROL") {
             	attributeState "temperature", label:'${currentValue}°', icon:"st.motion.motion.inactive", backgroundColors:[
                 	[value: 31, color: "#153591"],
@@ -79,12 +79,14 @@
                 state "inactive",label:'no motion',icon:"st.motion.motion.inactive",backgroundColor:"#ffffff"
                 state "active",label:'motion',icon:"st.motion.motion.active",backgroundColor:"#00a0dc"
 		}
-
+ 		valueTile("temperature", "device.temperature", inactiveLabel: false, width: 2, height: 2) {
+		state "temperature", label: '${currentValue}°'
+		}
 		valueTile("humidity","device.humidity", inactiveLabel: false, width: 2, height: 2) {
            	state "humidity",label:'${currentValue} % RH'
 		}
 		valueTile("illuminance", "device.illuminance", inactiveLabel: false, width: 2, height: 2) {
-           state "luminosity", label:'${currentValue} LUX', unit:"lux", 
+           	state "luminosity", label:'${currentValue} LUX', unit:"lux", 
                 backgroundColors:[
                 	[value: 0, color: "#000000"],
                     [value: 1, color: "#060053"],
@@ -99,50 +101,48 @@
         
 		valueTile(
         	"ultravioletIndex","device.ultravioletIndex", inactiveLabel: false, width: 2, height: 2) {
-				state "ultravioletIndex",label:'${currentValue} UV INDEX',unit:""
+		state "ultravioletIndex",label:'${currentValue} UV INDEX',unit:""
 		}
 		standardTile("acceleration", "device.acceleration", inactiveLabel: false, width: 2, height: 2) {
-			state("inactive", label:'clear', icon:"st.motion.acceleration.inactive", backgroundColor:"#ffffff")
-            state("active", label:'tamper', icon:"st.motion.acceleration.active", backgroundColor:"#f39c12")
+		state("inactive", label:'clear', icon:"st.motion.acceleration.inactive", backgroundColor:"#ffffff")
+            	state("active", label:'tamper', icon:"st.motion.acceleration.active", backgroundColor:"#f39c12")
 		}
-        standardTile("tamper", "device.tamper", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
-			state("clear", label:'clear', icon:"st.contact.contact.closed", backgroundColor:"#cccccc", action: "resetTamperAlert")
-            state("detected", label:'tamper', icon:"st.contact.contact.open", backgroundColor:"#e86d13", action: "resetTamperAlert")
+        	standardTile("tamper", "device.tamper", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+		state("clear", label:'clear', icon:"st.contact.contact.closed", backgroundColor:"#cccccc", action: "resetTamperAlert")
+           	state("detected", label:'tamper', icon:"st.contact.contact.open", backgroundColor:"#e86d13", action: "resetTamperAlert")
 		}
 		valueTile("battery", "device.battery", inactiveLabel: false, width: 2, height: 2) {
-			state "battery", label:'${currentValue}% battery', unit:""
+		state "battery", label:'${currentValue}% battery', unit:""
 		}
-        valueTile("batteryTile", "device.batteryTile", inactiveLabel: false, width: 2, height: 2) {
-			state "batteryTile", label:'${currentValue}', unit:""
+        	valueTile("batteryTile", "device.batteryTile", inactiveLabel: false, width: 2, height: 2) {
+		state "batteryTile", label:'${currentValue}', unit:""
 		}
-        valueTile(
-			"currentFirmware", "device.currentFirmware", inactiveLabel: false, width: 2, height: 2) {
-			state "currentFirmware", label:'Firmware: v${currentValue}', unit:""
+        	valueTile("currentFirmware", "device.currentFirmware", inactiveLabel: false, width: 2, height: 2) {
+		state "currentFirmware", label:'Firmware: v${currentValue}', unit:""
 		}
-        standardTile("refresh", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
-			state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
+        	standardTile("refresh", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+		state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
 		}
-        standardTile("configure", "device.needUpdate", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
-            state "NO" , label:'', action:"configuration.configure", icon:"st.secondary.configure"
-            state "YES", label:'', action:"configuration.configure", icon:"https://github.com/erocm123/SmartThingsPublic/raw/master/devicetypes/erocm123/qubino-flush-1d-relay.src/configure@2x.png"
-        }
-        standardTile(
-			"batteryRuntime", "device.batteryRuntime", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
-			state "batteryRuntime", label:'Battery: ${currentValue} Double tap to reset counter', unit:"", action:"resetBatteryRuntime"
+        	standardTile("configure", "device.needUpdate", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+            	state "NO" , label:'', action:"configuration.configure", icon:"st.secondary.configure"
+            	state "YES", label:'', action:"configuration.configure", icon:"https://github.com/erocm123/SmartThingsPublic/raw/master/devicetypes/erocm123/qubino-flush-1d-relay.src/configure@2x.png"
+        	}
+        	standardTile("batteryRuntime", "device.batteryRuntime", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+		state "batteryRuntime", label:'Battery: ${currentValue} Double tap to reset counter', unit:"", action:"resetBatteryRuntime"
 		}
-        standardTile(
-			"statusText2", "device.statusText2", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
-			state "statusText2", label:'${currentValue}', unit:"", action:"resetBatteryRuntime"
+        	standardTile("statusText2", "device.statusText2", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+		state "statusText2", label:'${currentValue}', unit:"", action:"resetBatteryRuntime"
 		}
         
 		main([
         	"temperature", "motion"
             ])
 		details([
-        	"temperature",
-            "humidity","illuminance","ultravioletIndex",
-            "motion","tamper","batteryTile", 
-            "refresh", "configure", "statusText2", 
+        	"multi",
+		"temperature","humidity","illuminance",
+		"motion","tamper","ultravioletIndex",
+		"refresh","batteryTile","statusText2",
+		"configure", 
             ])
 	}
 }
@@ -180,9 +180,9 @@ def parse(String description)
     if(state.batteryRuntimeStart != null){
         sendEvent(name:"batteryRuntime", value:getBatteryRuntime(), displayed:false)
         if (device.currentValue('currentFirmware') != null){
-            sendEvent(name:"statusText2", value: "Firmware: v${device.currentValue('currentFirmware')} - Battery: ${getBatteryRuntime()} Double tap to reset", displayed:false)
+            sendEvent(name:"statusText2", value: "${getBatteryRuntime()}", displayed:false)
         } else {
-            sendEvent(name:"statusText2", value: "Battery: ${getBatteryRuntime()} Double tap to reset", displayed:false)
+            sendEvent(name:"statusText2", value: "${getBatteryRuntime()}", displayed:false)
         }
     } else {
         state.batteryRuntimeStart = now()
@@ -477,9 +477,9 @@ def updated()
     if(state.batteryRuntimeStart != null){
         sendEvent(name:"batteryRuntime", value:getBatteryRuntime(), displayed:false)
         if (device.currentValue('currentFirmware') != null){
-            sendEvent(name:"statusText2", value: "Firmware: v${device.currentValue('currentFirmware')} - Battery: ${getBatteryRuntime()} Double tap to reset", displayed:false)
+            sendEvent(name:"statusText2", value: "${getBatteryRuntime()}", displayed:false)
         } else {
-            sendEvent(name:"statusText2", value: "Battery: ${getBatteryRuntime()} Double tap to reset", displayed:false)
+            sendEvent(name:"statusText2", value: "${getBatteryRuntime()}", displayed:false)
         }
     } else {
         state.batteryRuntimeStart = now()
@@ -908,9 +908,9 @@ private updateStatus(){
    if(state.batteryRuntimeStart != null){
         sendEvent(name:"batteryRuntime", value:getBatteryRuntime(), displayed:false)
         if (device.currentValue('currentFirmware') != null){
-            sendEvent(name:"statusText2", value: "Firmware: v${device.currentValue('currentFirmware')} - Battery: ${getBatteryRuntime()} Double tap to reset", displayed:false)
+            sendEvent(name:"statusText2", value: "${getBatteryRuntime()}", displayed:false)
         } else {
-            sendEvent(name:"statusText2", value: "Battery: ${getBatteryRuntime()} Double tap to reset", displayed:false)
+            sendEvent(name:"statusText2", value: "${getBatteryRuntime()}", displayed:false)
         }
     } else {
         state.batteryRuntimeStart = now()
